@@ -1,28 +1,50 @@
 # Compiled Object files
+
 *.slo
 *.lo
 *.o
 *.obj
 
+
 # Precompiled Headers
+
 *.gch
 *.pch
 
+
 # Compiled Dynamic libraries
+
 *.so
 *.dylib
 *.dll
 
+
 # Fortran module files
+
 *.mod
 
+
 # Compiled Static libraries
+
 *.lai
 *.la
 *.a
 *.lib
 
+
 # Executables
+
 *.exe
 *.out
 *.app
+#file ignore
+cocos2d/
+proj.android/
+proj.ios_mac/
+proj.linux/
+proj.win8.1-universal/
+proj.win32/
+proj.wp8-xaml/
+Resources/
+.cocos-project.json
+CMakeLists.txt
