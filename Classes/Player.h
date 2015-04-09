@@ -21,10 +21,13 @@ public:
 
 	void setJumpVector(int vec);
 	void setMoveVector(int vec);
-	
+	void setHorizontalSpeed(int speed);
+
 	int getJumpVector();
 	int getMoveVector();
-
+	Vec2 getSpeed();
+	int jumpFlag = 0;
+	bool isMove = false;
 private:
 	int JUMP_VEC;
 	int MOVE_VEC;
