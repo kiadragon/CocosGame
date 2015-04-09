@@ -118,7 +118,7 @@ void Swordsman::initRunAnimation() {
 void Swordsman::initAttackAnimation() {
 	attackAnimation = Animation::create();
 	attackAnimation->retain();
-	for (int i = 1; i < 7; i++) {
+	for (int i = 1; i < 6; i++) {
 		attackAnimation->addSpriteFrameWithFile((std::string)StringUtils::format("Swordsman/attack_%d.png", i));
 	}
 	attackAnimation->setDelayPerUnit(0.18f);

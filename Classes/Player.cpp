@@ -15,9 +15,9 @@ Player::Player(const std::string str, float x, float y) : Actor(str) {
 }
 
 void Player::initPhysicsBody() {
-
 	_physicsBody = PhysicsBody::createBox(_sprite->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT, Point::ZERO);
 	_physicsBody->getShape(0)->setFriction(0);
+	_physicsBody->getShape(0)->setRestitution(0);
 	_physicsBody->getShape(0)->setMass(0);
 	_physicsBody->setDynamic(true);
 	_physicsBody->setRotationEnable(false);
@@ -34,7 +34,7 @@ void Player::moveRight() {
 }
 
 void Player::jump() {
-	_physicsBody->setVelocity(_physicsBody->getVelocity() + Vec2(0, 400));
+	_physicsBody->setVelocity(Vec2(0, 400));
 }
 
 void Player::setJumpVector(int vec) {
@@ -45,12 +45,22 @@ void Player::setMoveVector(int vec) {
 	MOVE_VEC = vec;
 }
 
+void Player::setHorizontalSpeed(int speed) {
+	Vec2 temp = _physicsBody->getVelocity();
+	temp.x = speed;
+	_physicsBody->setVelocity(temp);
+}
+
 int Player::getJumpVector() {
 	return JUMP_VEC;
 }
 
 int Player::getMoveVector() {
 	return MOVE_VEC;
+}
+
+Vec2 Player::getSpeed() {
+	return _physicsBody->getVelocity();
 }
 
 Player::~Player() {

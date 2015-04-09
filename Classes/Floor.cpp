@@ -18,6 +18,7 @@ void Floor::initPhysicsBody() {
 	_physicsBody = PhysicsBody::createEdgeBox(_sprite->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT, 3);
 	_physicsBody->setDynamic(false);
 	_physicsBody->getShape(0)->setFriction(0);
+	_physicsBody->getShape(0)->setRestitution(0);
 	_physicsBody->getShape(0)->setMass(0);
 	_sprite->setPhysicsBody(_physicsBody);
 }

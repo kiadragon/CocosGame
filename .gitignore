@@ -48,3 +48,4 @@ proj.wp8-xaml/
 Resources/
 .cocos-project.json
 CMakeLists.txt
+bin/

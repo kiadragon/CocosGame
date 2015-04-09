@@ -3,19 +3,9 @@
 #include "ui\CocosGUI.h"
 #include "Player.h"
 #include "Floor.h"
+#include "Controller.h"
 USING_NS_CC;
 using namespace ui;
-
-//void createFloor(int w, int h, Layer* l) {
-//	auto floor1 = Sprite::create("floor.png");
-//	auto floorBody = PhysicsBody::createEdgeBox(floor1->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT, 3);
-//	floorBody->setDynamic(false);
-//	floorBody->getShape(0)->setFriction(0);
-//	floorBody->getShape(0)->setMass(0);
-//	floor1->setPosition(w, h);
-//	floor1->setPhysicsBody(floorBody);
-//	l->addChild(floor1);
-//}
 
 Scene* HelloWorld::createScene()
 {
@@ -41,7 +31,7 @@ bool HelloWorld::init()
     if ( !Layer::init() ) {
         return false;
     }
-    
+	Device::setAccelerometerEnabled(true);
     visibleSize = Director::getInstance()->getVisibleSize();
 	_screenWidth = visibleSize.width;
 	_screenHeight = visibleSize.height;
@@ -93,75 +83,19 @@ void HelloWorld::onEnter() {
 	this->addChild(f1->getSprite());
 	this->addChild(f2->getSprite());
 	this->addChild(f3->getSprite());
-	//duang = Sprite::create("duang.png");
-	//duangBody = PhysicsBody::createBox(duang->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT, Point::ZERO);
-	//duangBody->setDynamic(true);
-	//duangBody->getShape(0)->setRestitution(0);
-	//duangBody->getShape(0)->setFriction(0);
-	////duangBody->getShape(0)->setMass(0);
-	//duang->setPhysicsBody(duangBody);
-	//duang->setPosition(_screenWidth/4, _screenHeight*2/3);
 
 	player = new Player("duang.png");
 	player->setPosition(_screenWidth / 4, _screenHeight * 2 / 3);
 	this->addChild(player->getSprite());
 
-	swordsman = new Swordsman("Swordsman");
-	swordsman->setPosition(_screenWidth * 3 / 4, _screenHeight * 2 / 3);
-	this->addChild(swordsman->getSprite());
-
-	auto gameListener = EventListenerTouchOneByOne::create();
-	gameListener->onTouchBegan = [&](Touch* touch, Event* event) {
-		auto target = event->getCurrentTarget();
-		Vec2 location = touch->getLocation();
-		Vec2 locationInNode = target->convertToNodeSpace(location);
-		if ((int)locationInNode.x > _screenWidth / 2) {
-			swordsman->moveRight();
-		} else if ((int)locationInNode.x < _screenWidth / 2) {
-			swordsman->moveLeft();
-		}
-		return true;
-	};
-
-	//gameListener->onTouchEnded = [&](Touch* touch, Event* event) {
-	//	Vec2 tempV = duangBody->getVelocity();
-	//	tempV.x = 0;
-	//	duangBody->setVelocity(tempV);
-	//};
-
-	
-	//auto JumpListener = EventListenerTouchOneByOne::create();
-	//JumpListener->onTouchBegan = [&](Touch* touch, Event* event) {
-	//	auto target = event->getCurrentTarget();
-	//	tempLocation = touch->getLocation();
-	//	return true;
-	//};
-
-	//JumpListener->onTouchEnded = [&](Touch* touch, Event* event) {
-	//	auto target = event->getCurrentTarget();
-	//	Vec2 location = touch->getLocation();
-	//	if (location.y > tempLocation.y) {
-	//		duangBody->setVelocity(duangBody->getVelocity() + Vec2(0, 200));
-	//	}
-	//};
-
-	//gameListener->onTouchMoved = [&](Touch* touch, Event* event) {
-	//	CCLOG("www");
-	//	duangBody->setVelocity(Vec2(200, 0));
-	//};
-
+	auto controller = new Controller(player);
+	auto gameListener = controller->controlPlayer();
+	auto jumpListener = controller->controlPlayerJump();
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(gameListener, this);
-
-	auto jumpButton = Button::create("up.png");
-
-	jumpButton->setPosition(Point(_screenWidth*6/7, _screenHeight*6/7));
-	jumpButton->addTouchEventListener([&](Ref* psender, Widget::TouchEventType type) {
-		if (type == Widget::TouchEventType::ENDED) {
-			swordsman->jump();
-		}
-		//cclog("upupupup!!");
-	});
-	this->addChild(jumpButton);
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(jumpListener, 1);
+	//swordsman = new Swordsman("Swordsman");
+	//swordsman->setPosition(_screenWidth * 3 / 4, _screenHeight * 2 / 3);
+	//this->addChild(swordsman->getSprite());
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
