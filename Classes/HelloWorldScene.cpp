@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Floor.h"
 #include "Controller.h"
+#include "MapReader.h"
 USING_NS_CC;
 using namespace ui;
 
@@ -69,20 +70,28 @@ bool HelloWorld::init()
 void HelloWorld::onEnter() {
 	Layer::onEnter();
 
+	// map
+	// new Map and set Scale
+	auto mapReader = new MapReader("forest.tmx", 1.5);
+	this->addChild(mapReader->getMap());
 	//wall
 	auto wall = Sprite::create();
 	auto wallBody = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
 	wall->setPosition(visibleSize.width / 2, visibleSize.height / 2);
 	wall->setPhysicsBody(wallBody);
 	this->addChild(wall);
-
-	Floor* f1 = new Floor("floor.png");
-	f1->setPosition(_screenWidth / 5, _screenHeight / 4);
-	Floor* f2 = new Floor("floor.png", _screenWidth * 4 / 5, _screenHeight / 4);
-	Floor* f3 = new Floor("floor.png", _screenWidth / 2, _screenHeight / 2);
-	this->addChild(f1->getSprite());
-	this->addChild(f2->getSprite());
-	this->addChild(f3->getSprite());
+	Array* floorArray = mapReader->getFloorArray();
+	for (int i = 0; i < floorArray->count(); i++) {
+		Floor *floor = (Floor*)floorArray->getObjectAtIndex(i);
+		this->addChild(floor->getSprite());
+	}
+	//Floor* f1 = new Floor("floor.png");
+	//f1->setPosition(_screenWidth / 5, _screenHeight / 4);
+	//Floor* f2 = new Floor("floor.png", _screenWidth * 4 / 5, _screenHeight / 4);
+	//Floor* f3 = new Floor("floor.png", _screenWidth / 2, _screenHeight / 2);
+	//this->addChild(f1->getSprite());
+	//this->addChild(f2->getSprite());
+	//this->addChild(f3->getSprite());
 
 	player = new Player("duang.png");
 	player->setPosition(_screenWidth / 4, _screenHeight * 2 / 3);

@@ -11,7 +11,9 @@ public:
 	~Floor();
 	Floor(const std::string str);
 	Floor(const std::string str, float x, float y);
+	Floor(int width, int height);
 	void initPhysicsBody();
+	void initPhysicsBody(int w, int h);
 private:
 };
 
