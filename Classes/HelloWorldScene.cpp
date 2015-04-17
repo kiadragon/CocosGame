@@ -5,6 +5,7 @@
 #include "Floor.h"
 #include "Controller.h"
 #include "MapReader.h"
+#include "Fireball.h"
 USING_NS_CC;
 using namespace ui;
 
@@ -72,7 +73,8 @@ void HelloWorld::onEnter() {
 
 	// map
 	// new Map and set Scale
-	auto mapReader = new MapReader("forest.tmx", 1.5);
+	auto mapReader = new MapReader("forest",1.5);
+	this->addChild(mapReader->getBackground());
 	this->addChild(mapReader->getMap());
 	//wall
 	auto wall = Sprite::create();
@@ -102,9 +104,14 @@ void HelloWorld::onEnter() {
 	auto jumpListener = controller->controlPlayerJump();
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(gameListener, this);
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(jumpListener, 1);
-	//swordsman = new Swordsman("Swordsman");
-	//swordsman->setPosition(_screenWidth * 3 / 4, _screenHeight * 2 / 3);
-	//this->addChild(swordsman->getSprite());
+	swordsman = new Swordsman("Swordsman");
+	swordsman->setPosition(_screenWidth * 3 / 4, _screenHeight * 2 / 3);
+	this->addChild(swordsman->getSprite());
+
+	Fireball* fireball = new Fireball("right", _screenWidth / 10, _screenHeight * 2 / 3);
+	this->addChild(fireball->getSprite());
+	Fireball* fireball1 = new Fireball("right", _screenWidth / 2, _screenHeight * 2 / 3);
+	this->addChild(fireball1->getSprite());
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)

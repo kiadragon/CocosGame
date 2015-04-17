@@ -6,10 +6,12 @@ USING_NS_CC;
 Floor::Floor(const std::string str) : Actor(str){
 	initPhysicsBody();
 	_physicsBody->setDynamic(false);
+	initPhysicsCollision(0x01, 0x01, 1);
 }
 
 Floor::Floor(const std::string str, float x, float y) : Actor(str) {
 	initPhysicsBody();
+	initPhysicsCollision(0x01, 0x01, 1);
 	this->setPosition(x, y);
 }
 

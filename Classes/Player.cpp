@@ -21,6 +21,7 @@ void Player::initPhysicsBody() {
 	_physicsBody->getShape(0)->setMass(0);
 	_physicsBody->setDynamic(true);
 	_physicsBody->setRotationEnable(false);
+	initPhysicsCollision(0xff, 0xff);
 	_sprite->setPhysicsBody(_physicsBody);
 }
 
