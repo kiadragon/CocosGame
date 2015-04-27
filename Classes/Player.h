@@ -27,7 +27,8 @@ public:
 	int getMoveVector();
 	Vec2 getSpeed();
 	int jumpFlag = 0;
-	bool isMove = false;
+	bool isMovingLeft = false;
+	bool isMovingRight = false;
 private:
 	int JUMP_VEC;
 	int MOVE_VEC;

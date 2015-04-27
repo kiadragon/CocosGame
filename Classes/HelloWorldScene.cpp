@@ -5,6 +5,7 @@
 #include "Floor.h"
 #include "Controller.h"
 #include "MapReader.h"
+#include "ControlSwordsman.h"
 #include "Fireball.h"
 USING_NS_CC;
 using namespace ui;
@@ -68,6 +69,10 @@ bool HelloWorld::init()
     return true;
 }
 
+void HelloWorld::updateSwordsman(float s) {
+	_controlSwordsman->SwordsmanAI(player->jumpFlag, player->isMovingLeft, player->isMovingRight, player->getSprite()->getPosition());
+}
+
 void HelloWorld::onEnter() {
 	Layer::onEnter();
 
@@ -87,13 +92,6 @@ void HelloWorld::onEnter() {
 		Floor *floor = (Floor*)floorArray->getObjectAtIndex(i);
 		this->addChild(floor->getSprite());
 	}
-	//Floor* f1 = new Floor("floor.png");
-	//f1->setPosition(_screenWidth / 5, _screenHeight / 4);
-	//Floor* f2 = new Floor("floor.png", _screenWidth * 4 / 5, _screenHeight / 4);
-	//Floor* f3 = new Floor("floor.png", _screenWidth / 2, _screenHeight / 2);
-	//this->addChild(f1->getSprite());
-	//this->addChild(f2->getSprite());
-	//this->addChild(f3->getSprite());
 
 	player = new Player("duang.png");
 	player->setPosition(_screenWidth / 4, _screenHeight * 2 / 3);
@@ -104,9 +102,13 @@ void HelloWorld::onEnter() {
 	auto jumpListener = controller->controlPlayerJump();
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(gameListener, this);
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(jumpListener, 1);
+
 	swordsman = new Swordsman("Swordsman");
 	swordsman->setPosition(_screenWidth * 3 / 4, _screenHeight * 2 / 3);
 	this->addChild(swordsman->getSprite());
+	
+	_controlSwordsman = new ControlSwordsman(swordsman);
+	schedule(schedule_selector(HelloWorld::updateSwordsman), 0.5);
 
 	Fireball* fireball = new Fireball("right", _screenWidth / 10, _screenHeight * 2 / 3);
 	this->addChild(fireball->getSprite());

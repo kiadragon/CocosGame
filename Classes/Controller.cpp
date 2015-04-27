@@ -3,21 +3,19 @@
 #include "Player.h"
 #include "HelloWorldScene.h"
 #include "AppDelegate.h"
-#include <vector>
 USING_NS_CC;
 
 EventListenerAcceleration* Controller::controlPlayer() {
 	auto listener = EventListenerAcceleration::create([&](Acceleration* acc, Event* event) {
-		if (acc->x > 0.5 && !player->isMove) {
+		if (acc->x > 0.5 && !player->isMovingRight && !player->isMovingLeft) {
 			player->moveRight();
-			player->isMove = true;
-		}
-		else if (acc->x <= -0.5 && !player->isMove) {
+			player->isMovingLeft = true;
+		} else if (acc->x <= -0.5 && !player->isMovingRight && !player->isMovingLeft) {
 			player->moveLeft();
-			player->isMove = true;
-		}
-		else if (acc->x > -0.5 && acc->x < 0.5 && player->isMove){
-			player->isMove = false;
+			player->isMovingRight = true;
+		} else if (acc->x > -0.5 && acc->x < 0.5 && (player->isMovingRight || player->isMovingLeft)){
+			player->isMovingLeft = false;
+			player->isMovingRight = false;
 			player->setHorizontalSpeed(0);
 		}
 	});
@@ -33,8 +31,7 @@ EventListenerTouchOneByOne* Controller::controlPlayerJump() {
 		}
 		if (player->getSpeed().y > 0 && player->jumpFlag == 2) {
 			return true;
-		} else if (player->jumpFlag <= 2){
-			CCLOG("jumpflag:%d", player->jumpFlag);
+		} else if (player->jumpFlag < 2){
 			player->jumpFlag++;
 			player->jump();
 		}

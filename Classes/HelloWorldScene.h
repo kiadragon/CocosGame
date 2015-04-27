@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "Swordsman.h"
+#include "ControlSwordsman.h"
 USING_NS_CC;
 
 class HelloWorld : public cocos2d::Layer
@@ -18,7 +19,7 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
 	void onEnter();
-    
+	void updateSwordsman(float s);
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 
@@ -30,7 +31,7 @@ private:
 	cocos2d::PhysicsBody* duangBody;
 	Player* player;
 	Swordsman* swordsman;
-
+	ControlSwordsman* _controlSwordsman;
 
 };
 
