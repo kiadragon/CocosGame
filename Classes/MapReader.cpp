@@ -5,10 +5,9 @@ USING_NS_CC;
 
 
 
-MapReader::MapReader(std::string mapFile, float s) {
-	map = TMXTiledMap::create(mapFile);
+MapReader::MapReader(std::string mapName, float s) {
+	map = TMXTiledMap::create(mapName + ".tmx");
 	SCALE = s;
-	CCLOG("%d %d\n", SCALE, s);
 	map->setScale(SCALE, SCALE);
 	objectGroup = map->getObjectGroup("object");
 	ValueVector floorVector = objectGroup->getObjects();
@@ -16,7 +15,10 @@ MapReader::MapReader(std::string mapFile, float s) {
 	//CCASSERT(NULL != objectGroup, "'Objects' object group not found");
 
 	//CCASSERT(!floorVector.empty(), "'Objects' object not found");
-	
+	background = Sprite::create(mapName + ".png");
+	background->setAnchorPoint(Vec2(0, 0));
+	background->setScale(s, s);
+
 	initFloorArray(floorVector);
 }
 
@@ -26,6 +28,11 @@ void MapReader::setMap(TMXTiledMap *newMap) {
 
 TMXTiledMap* MapReader::getMap() {
 	if (map != NULL) return map;
+	else return NULL;
+}
+
+Sprite* MapReader::getBackground() {
+	if (background != NULL) return background;
 	else return NULL;
 }
 

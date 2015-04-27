@@ -6,14 +6,15 @@ USING_NS_CC;
 
 Swordsman::Swordsman(const std::string str) : Enemy(str) {
 	initPhysicsBody();
+	initPhysicsCollision(0x01, 0x01, 1);
 	initAnimate();
 	idleAnimate();
 }
 
 Swordsman::Swordsman(const std::string str, float x, float y) : Enemy(str) {
 	initPhysicsBody();
+	initPhysicsCollision(0x01, 0x01, 1);
 	setPosition(x, y);
-
 	initAnimate();
 	idleAnimate();
 }
