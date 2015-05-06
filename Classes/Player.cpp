@@ -26,7 +26,6 @@ void Player::initPhysicsBody() {
 }
 
 void Player::moveLeft() {
-	_physicsBody->getVelocity();
 	_physicsBody->setVelocity(_physicsBody->getVelocity() + Vec2(-200, 0));
 }
 
@@ -35,7 +34,7 @@ void Player::moveRight() {
 }
 
 void Player::jump() {
-	_physicsBody->setVelocity(Vec2(0, 400));
+	_physicsBody->setVelocity(_physicsBody->getVelocity() + Vec2(0, 400));
 }
 
 void Player::setJumpVector(int vec) {

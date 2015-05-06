@@ -5,6 +5,9 @@
 #include "Player.h"
 #include "Swordsman.h"
 #include "ControlSwordsman.h"
+#include "MapReader.h"
+#include "Controller.h"
+
 USING_NS_CC;
 
 class HelloWorld : public cocos2d::Layer
@@ -18,8 +21,11 @@ public:
 	//void createFloor(int w, int h, Layer* l);
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
+	void menuPauseCallback(cocos2d::Ref* pSender);
 	void onEnter();
 	void updateSwordsman(float s);
+	void update(float s);
+	void updatePerSecond(float s);
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 
@@ -31,8 +37,12 @@ private:
 	cocos2d::PhysicsBody* duangBody;
 	Player* player;
 	Swordsman* swordsman;
+	Controller* controller;
 	ControlSwordsman* _controlSwordsman;
-
+	TMXTiledMap* _tileMap;
+	MapReader* mapReader;
+	Value gameTime;
+	LabelTTF* CountTime;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

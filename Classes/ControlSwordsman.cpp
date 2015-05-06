@@ -17,7 +17,7 @@ void ControlSwordsman::SwordsmanAI(int jumpFlag, bool isMovingRight, bool isMovi
 		_swordsman->moveLeft();
 	}
 
-	if (playerPosition.y < smPosition.y) {
+	if (playerPosition.y > smPosition.y) {
 		_swordsman->jump();
 	}
 }
