@@ -11,13 +11,13 @@ Enemy::Enemy(const std::string str) {
 }
 
 Enemy::Enemy(const std::string str, float x, float y) {
-	_sprite = Sprite::create(str + "idle_1.png");
+	_sprite = Sprite::create(str + "/idle_1.png");
 	initPhysicsBody();
 	setPosition(x, y);
 }
 
 void Enemy::initPhysicsBody() {
-	_physicsBody = PhysicsBody::createBox(_sprite->getContentSize(), PhysicsMaterial(10,0,0), Point::ZERO);
+	_physicsBody = PhysicsBody::createBox(_sprite->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT, Point::ZERO);
 	_physicsBody->getShape(0)->setFriction(0);
 	_physicsBody->getShape(0)->setMass(0);
 	_physicsBody->setDynamic(true);
