@@ -9,7 +9,6 @@ Scene* StartScene::createScene()
 	auto scene = Scene::create();
 	auto Layer = StartScene::create();
 	scene->addChild(Layer);
-
 	return scene;
 }
 

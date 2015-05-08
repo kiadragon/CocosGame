@@ -94,13 +94,14 @@ bool HelloWorld::init()
 	this->addChild(controller->getRightBtn());
 	this->addChild(controller->getLeftBtn());
 
-	swordsman = new Swordsman("Swordsman");
+	swordsman = new Swordsman("swordsman");
 	swordsman->setPosition(_screenWidth * 3 / 4, _screenHeight * 2 / 3);
 	this->addChild(swordsman->getSprite());
 
 	_controlSwordsman = new ControlSwordsman(swordsman);
 	schedule(schedule_selector(HelloWorld::updateSwordsman), 0.5);
 	schedule(schedule_selector(HelloWorld::update));
+	schedule(schedule_selector(HelloWorld::updatePerSecond), 1.0);
 
 	Fireball* fireball = new Fireball("right", _screenWidth / 10, _screenHeight * 2 / 3);
 	this->addChild(fireball->getSprite());
@@ -152,7 +153,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #endif
 }
 
-void HelloWorld::menuPauseCallback(CCObject* pSender)
+void HelloWorld::menuPauseCallback(Object* pSender)
 {  
 	RenderTexture *renderTexture = RenderTexture::create(_screenWidth, _screenHeight);
 

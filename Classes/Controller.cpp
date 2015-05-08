@@ -13,7 +13,7 @@ Button* Controller::getLeftBtn() {
 			player->moveLeft();
 			player->isMovingLeft = true;
 		}
-		if (type == Widget::TouchEventType::ENDED) {
+		if (type == Widget::TouchEventType::ENDED || type == Widget::TouchEventType::CANCELED) {
 			player->setHorizontalSpeed(0);
 			player->isMovingLeft = false;
 		}
@@ -32,7 +32,7 @@ Button* Controller::getRightBtn() {
 			player->moveRight();
 			player->isMovingRight = true;
 		}
-		if (type == Widget::TouchEventType::ENDED) {
+		if (type == Widget::TouchEventType::ENDED || type == Widget::TouchEventType::CANCELED) {
 			player->setHorizontalSpeed(0);
 			player->isMovingRight = false;
 		}

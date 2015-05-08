@@ -25,4 +25,4 @@ protected:
 	void initFloorArray(ValueVector);
 };
 
-#endif _MAPREADER_H_
+#endif

@@ -100,7 +100,7 @@ void Swordsman::initIdleAnimation() {
 	idleAnimation = Animation::create();
 	idleAnimation->retain();
 	for (int i = 1; i < 5; i++) {
-		idleAnimation->addSpriteFrameWithFile((std::string)StringUtils::format("Swordsman/idle_%d.png", i));
+		idleAnimation->addSpriteFrameWithFile((std::string)StringUtils::format("swordsman/idle_%d.png", i));
 	}
 	idleAnimation->setDelayPerUnit(0.18f);
 	idleAnimation->setLoops(-1);
@@ -110,7 +110,7 @@ void Swordsman::initRunAnimation() {
 	runAnimation = Animation::create();
 	runAnimation->retain();
 	for (int i = 1; i < 5; i++) {
-		runAnimation->addSpriteFrameWithFile((std::string)StringUtils::format("Swordsman/move_%d.png", i));
+		runAnimation->addSpriteFrameWithFile((std::string)StringUtils::format("swordsman/move_%d.png", i));
 	}
 	runAnimation->setDelayPerUnit(0.18f);
 	runAnimation->setLoops(-1);
@@ -120,7 +120,7 @@ void Swordsman::initAttackAnimation() {
 	attackAnimation = Animation::create();
 	attackAnimation->retain();
 	for (int i = 1; i < 6; i++) {
-		attackAnimation->addSpriteFrameWithFile((std::string)StringUtils::format("Swordsman/attack_%d.png", i));
+		attackAnimation->addSpriteFrameWithFile((std::string)StringUtils::format("swordsman/attack_%d.png", i));
 	}
 	attackAnimation->setDelayPerUnit(0.18f);
 	attackAnimation->setLoops(-1);
@@ -130,7 +130,7 @@ void Swordsman::initStiffAnimation() {
 	stiffAnimation = Animation::create();
 	stiffAnimation->retain();
 	for (int i = 1; i < 4; i++) {
-		stiffAnimation->addSpriteFrameWithFile((std::string)StringUtils::format("Swordsman/fall_%d.png", i));
+		stiffAnimation->addSpriteFrameWithFile((std::string)StringUtils::format("swordsman/fall_%d.png", i));
 	}
 	stiffAnimation->setDelayPerUnit(0.18f);
 	stiffAnimation->setLoops(-1);
