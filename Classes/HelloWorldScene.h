@@ -26,6 +26,9 @@ public:
 	void updateSwordsman(float s);
 	void update(float s);
 	void updatePerSecond(float s);
+	void gameOver();
+	void restart(int message);
+	bool collisionDetection();
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 

@@ -8,6 +8,7 @@
 #include "ControlSwordsman.h"
 #include "Fireball.h"
 #include "GamePause.h"
+#include "StartScene.h"
 
 USING_NS_CC;
 using namespace ui;
@@ -17,7 +18,7 @@ Scene* HelloWorld::createScene()
     // 'scene' is an autorelease object
 	auto scene = Scene::createWithPhysics();
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -1000.0f));
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     // 'layer' is an autorelease object
 	auto layer = HelloWorld::create();
     // add layer as a child to scene
@@ -94,13 +95,14 @@ bool HelloWorld::init()
 	this->addChild(controller->getRightBtn());
 	this->addChild(controller->getLeftBtn());
 
-	swordsman = new Swordsman("Swordsman");
+	swordsman = new Swordsman("swordsman");
 	swordsman->setPosition(_screenWidth * 3 / 4, _screenHeight * 2 / 3);
 	this->addChild(swordsman->getSprite());
 
 	_controlSwordsman = new ControlSwordsman(swordsman);
 	schedule(schedule_selector(HelloWorld::updateSwordsman), 0.5);
 	schedule(schedule_selector(HelloWorld::update));
+	schedule(schedule_selector(HelloWorld::updatePerSecond), 1.0);
 
 	Fireball* fireball = new Fireball("right", _screenWidth / 10, _screenHeight * 2 / 3);
 	this->addChild(fireball->getSprite());
@@ -127,11 +129,54 @@ void HelloWorld::update(float s) {
 	else if (player->isMovingRight) {
 		player->setHorizontalSpeed(200);
 	}
+	if (this->collisionDetection()) {
+		this->gameOver();
+	}
 }
 
 void HelloWorld::updatePerSecond(float s) {
 	gameTime = gameTime.asInt() - 1;
 	CountTime->setString(gameTime.asString());
+	if (gameTime.asInt() == 0) {
+		this->gameOver();
+	}
+}
+
+void HelloWorld::gameOver() {
+	this->unscheduleAllSelectors();
+	auto restartBtn = Button::create("startNormal.png");
+	restartBtn->setPosition(Vec2(_screenWidth / 2, _screenHeight * 0.6));
+	restartBtn->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type) {
+		if (type == Widget::TouchEventType::ENDED) {
+			this->restart(1);
+		}
+	});
+	this->addChild(restartBtn);
+
+	auto backBtn = Button::create("returnNormal.png");
+	backBtn->setPosition(Vec2(_screenWidth / 2, _screenHeight * 0.4));
+	backBtn->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type) {
+		if (type == Widget::TouchEventType::ENDED) {
+			this->restart(2);
+		}
+	});
+	this->addChild(backBtn);
+}
+
+void HelloWorld::restart(int message) {
+	if (message == 1) {
+		Director::getInstance()->pushScene(HelloWorld::createScene());
+	}
+	else if (message == 2) {
+		Director::getInstance()->pushScene(StartScene::createScene());
+	}
+}
+
+bool HelloWorld::collisionDetection() {
+	if (this->player->getSprite()->getBoundingBox().intersectsRect(this->swordsman->getSprite()->getBoundingBox())) {
+		return true;
+	}
+	return false;
 }
 
 void HelloWorld::onEnter() {
@@ -152,7 +197,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #endif
 }
 
-void HelloWorld::menuPauseCallback(CCObject* pSender)
+void HelloWorld::menuPauseCallback(Object* pSender)
 {  
 	RenderTexture *renderTexture = RenderTexture::create(_screenWidth, _screenHeight);
 
