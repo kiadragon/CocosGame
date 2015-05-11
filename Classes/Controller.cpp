@@ -7,7 +7,8 @@
 USING_NS_CC;
 
 Button* Controller::getLeftBtn() {
-	leftBtn = Button::create("duang.png");
+	leftBtn = Button::create("left_arrow-128.png");
+	leftBtn->setScale(0.6);
 	leftBtn->addTouchEventListener([&](Ref* pSender, Widget::TouchEventType type) {
 		if (type == Widget::TouchEventType::BEGAN) {
 			player->moveLeft();
@@ -25,8 +26,8 @@ Button* Controller::getLeftBtn() {
 }
 
 Button* Controller::getRightBtn() {
-	rightBtn = Button::create("duang.png");
-
+	rightBtn = Button::create("right_arrow-128.png");
+	rightBtn->setScale(0.6);
 	rightBtn->addTouchEventListener([&](Ref* pSender, Widget::TouchEventType type) {
 		if (type == Widget::TouchEventType::BEGAN) {
 			player->moveRight();

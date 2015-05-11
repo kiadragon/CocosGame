@@ -8,6 +8,7 @@
 #include "ControlSwordsman.h"
 #include "Fireball.h"
 #include "GamePause.h"
+#include "StartScene.h"
 
 USING_NS_CC;
 using namespace ui;
@@ -17,7 +18,7 @@ Scene* HelloWorld::createScene()
     // 'scene' is an autorelease object
 	auto scene = Scene::createWithPhysics();
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -1000.0f));
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     // 'layer' is an autorelease object
 	auto layer = HelloWorld::create();
     // add layer as a child to scene
@@ -128,11 +129,54 @@ void HelloWorld::update(float s) {
 	else if (player->isMovingRight) {
 		player->setHorizontalSpeed(200);
 	}
+	if (this->collisionDetection()) {
+		this->gameOver();
+	}
 }
 
 void HelloWorld::updatePerSecond(float s) {
 	gameTime = gameTime.asInt() - 1;
 	CountTime->setString(gameTime.asString());
+	if (gameTime.asInt() == 0) {
+		this->gameOver();
+	}
+}
+
+void HelloWorld::gameOver() {
+	this->unscheduleAllSelectors();
+	auto restartBtn = Button::create("startNormal.png");
+	restartBtn->setPosition(Vec2(_screenWidth / 2, _screenHeight * 0.6));
+	restartBtn->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type) {
+		if (type == Widget::TouchEventType::ENDED) {
+			this->restart(1);
+		}
+	});
+	this->addChild(restartBtn);
+
+	auto backBtn = Button::create("returnNormal.png");
+	backBtn->setPosition(Vec2(_screenWidth / 2, _screenHeight * 0.4));
+	backBtn->addTouchEventListener([=](Ref* pSender, Widget::TouchEventType type) {
+		if (type == Widget::TouchEventType::ENDED) {
+			this->restart(2);
+		}
+	});
+	this->addChild(backBtn);
+}
+
+void HelloWorld::restart(int message) {
+	if (message == 1) {
+		Director::getInstance()->pushScene(HelloWorld::createScene());
+	}
+	else if (message == 2) {
+		Director::getInstance()->pushScene(StartScene::createScene());
+	}
+}
+
+bool HelloWorld::collisionDetection() {
+	if (this->player->getSprite()->getBoundingBox().intersectsRect(this->swordsman->getSprite()->getBoundingBox())) {
+		return true;
+	}
+	return false;
 }
 
 void HelloWorld::onEnter() {
